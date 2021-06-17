@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import './transaction.dart';
 
 void main() {
@@ -27,6 +28,9 @@ class MyHomePage extends StatelessWidget {
     Transaction(id: "t3", title: "New Joggers", amount: 29.69, date: DateTime.now()),
   ];
 
+  String? titleInput;
+  String? amountInput;
+
   @override
   Widget build(BuildContext context) {
 
@@ -36,15 +40,48 @@ class MyHomePage extends StatelessWidget {
         title: Text("Flutter App"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Container(
+            width: double.infinity,
+            child: Card(
+              color: Colors.blue,
+              elevation: 5,
+              child: Text("Chart")
+            ),
+          ),
           Card(
-            color: Colors.blue,
             elevation: 5,
             child: Container(
-              width: double.infinity,
-                child: Text("Chart")
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: "Title"),
+                    onChanged: (value) {
+                      titleInput = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: "Amount"),
+                    onChanged: (value) {
+                      amountInput = value;
+                    },
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        print(titleInput);
+                        print(amountInput);
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.purple,
+                      ),
+                      child: Text('Add Transaction')
+                  )
+                ],
+              ),
             ),
           ),
           Column(
@@ -63,7 +100,7 @@ class MyHomePage extends StatelessWidget {
                               )
                             ),
                             child: Text(
-                              trx.amount.toString(),
+                              "\₹${trx.amount}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -82,7 +119,7 @@ class MyHomePage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                  trx.date.toString(),
+                                  DateFormat.yMMMd().format(trx.date),
                                 style: TextStyle(
                                   color: Colors.grey
                                 ),
